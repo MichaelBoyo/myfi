@@ -12,11 +12,11 @@ export class AppService {
   connectBank(accountNo: string, bankName: string): any {
     switch (bankName) {
       case 'gt':
-        return { data: gtData };
+        return gtData;
       case 'kuda':
-        return { data: kudaData };
+        return kudaData;
       case 'uba':
-        return { data: ubaData };
+        return ubaData;
       default:
         return 'Bank not found';
     }
