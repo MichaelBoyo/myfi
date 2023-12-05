@@ -1,14 +1,20 @@
-FROM node:16-alpine
+FROM node:16-alpine AS builder
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install
 
-RUN yarn install --production
+COPY . .
 
 RUN yarn run build
 
-COPY . .
+FROM node:16-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/dist ./
 
 EXPOSE 3000
 
