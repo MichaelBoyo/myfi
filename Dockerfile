@@ -1,21 +1,21 @@
-#
-FROM node:18-alpine as prod
+FROM node:16-alpine AS builder
 
 WORKDIR /app
-RUN apk add --no-cache libc6-compat
 
-# Set to production environment
-ENV NODE_ENV production
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install
 
-# Re-create non-root user for Docker
-RUN addgroup --system --gid 1001 node
-RUN adduser --system --uid 1001 node
+COPY . .
 
-# Copy only the necessary files
-COPY --chown=node:node --from=build /app/dist dist
-COPY --chown=node:node --from=build /app/node_modules node_modules
+RUN yarn run build
 
-# Set Docker as non-root user
-USER node
+FROM node:16-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/dist ./
+
+EXPOSE 3000
 
 CMD ["node", "dist/main.js"]
