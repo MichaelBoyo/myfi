@@ -20,4 +20,4 @@ EXPOSE 3000
 
 RUN ls -al
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "main.js"]
