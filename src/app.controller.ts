@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -10,7 +10,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('/:accountNo/:bankName')
+  @Post('/connect/:accountNo/:bankName')
   connectBank(@Param() params: any) {
     return this.appService.connectBank(params.accountNo, params.bankName);
   }
