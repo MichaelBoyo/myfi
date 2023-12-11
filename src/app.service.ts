@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { gtData } from './banks-data/gt';
 import { kudaData } from './banks-data/kuda';
 import { ubaData } from './banks-data/uba';
+import { TxFilterDto } from './app.dto';
 
 @Injectable()
 export class AppService {
@@ -9,16 +10,30 @@ export class AppService {
     return 'Hello World!';
   }
 
-  connectBank(accountNo: string, bankName: string): any {
+  connectBank(
+    accountNo: string,
+    bankName: string,
+    txFilter?: TxFilterDto,
+  ): any {
+    console.log({ bankName });
+    let txs: any[];
+
     switch (bankName) {
       case 'gt':
-        return gtData;
+        txs = gtData;
+        break;
       case 'kuda':
-        return kudaData;
+        txs = kudaData;
+        break;
       case 'uba':
-        return ubaData;
+        txs = ubaData;
+        break;
       default:
-        return 'Bank not found';
+        txs = [];
     }
+
+    return txs.length === 0 || !txFilter || JSON.stringify(txFilter) === '{}'
+      ? txs
+      : txs.filter((tx) => tx.timestamp > txFilter.startDate);
   }
 }

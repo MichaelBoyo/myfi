@@ -1,5 +1,6 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Optional } from '@nestjs/common';
 import { AppService } from './app.service';
+import { TxFilterDto } from './app.dto';
 
 @Controller()
 export class AppController {
@@ -11,7 +12,12 @@ export class AppController {
   }
 
   @Post('/connect/:accountNo/:bankName')
-  connectBank(@Param() params: any) {
-    return this.appService.connectBank(params.accountNo, params.bankName);
+  connectBank(@Param() params: any, @Body() @Optional() txFilter: TxFilterDto) {
+    console.log({ txFilter });
+    return this.appService.connectBank(
+      params.accountNo,
+      params.bankName,
+      txFilter,
+    );
   }
 }
