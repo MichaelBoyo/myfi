@@ -3,16 +3,18 @@ import { Bank } from 'src/bank/schemas/Bank.schema';
 import { Transaction } from 'src/bank/schemas/Transactions.schema';
 import { SupportedBanks } from 'src/types';
 import { generateRandomTransactions } from 'src/utils';
+import { ConnectBankDTO } from './dtos/connectBank.dto';
 // import  {Chance} from 'chance';
 // const chance = new Chance();
 
 @Injectable()
 export class MyfiService {
-  async connectBank(): Promise<Transaction[]> {
+  async connectBank(connectBankDTO: ConnectBankDTO): Promise<Transaction[]> {
+    connectBankDTO;
     return generateRandomTransactions(
       '2023-11-13T20:21:29.939Z',
       '2023-12-13T20:21:29.939Z',
-      SupportedBanks.KUDA,
+      connectBankDTO.name,
       'Oladeji Joshua',
       16,
     );

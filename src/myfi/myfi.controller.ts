@@ -1,17 +1,18 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { MyfiService } from './myfi.service';
 import { Response } from 'src/common/Response';
+import { ConnectBankDTO } from './dtos/connectBank.dto';
 
 @Controller('myfi')
 export class MyfiController {
   constructor(private readonly myfiService: MyfiService) {}
 
   @Post('/connect-bank')
-  async connectBank() {
+  async connectBank(@Body() connectBankDTO: ConnectBankDTO) {
     return new Response(
       true,
       'successful!',
-      await this.myfiService.connectBank(),
+      await this.myfiService.connectBank(connectBankDTO),
     );
   }
 
