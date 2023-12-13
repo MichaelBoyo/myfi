@@ -5,13 +5,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { BankModule } from './bank/bank.module';
 import { MyfiModule } from './myfi/myfi.module';
+import { config } from 'dotenv';
+config();
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      // TODO: put this in environment
-      `mongodb+srv://sphinx-developer:fbedKnB064aQA3zQ@cluster0.xy2yevy.mongodb.net/?retryWrites=true&w=majority`,
-    ),
+    MongooseModule.forRoot(process.env.DB_URI),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
