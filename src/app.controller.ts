@@ -20,4 +20,12 @@ export class AppController {
       txFilter,
     );
   }
+
+  @Post('/transactions/:bankName')
+  getLatestTransactions(
+    @Param() params: any,
+    @Body() @Optional() txFilter: TxFilterDto,
+  ) {
+    return [];
+  }
 }

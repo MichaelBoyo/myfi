@@ -15,7 +15,8 @@ export class AppService {
     bankName: string,
     txFilter?: TxFilterDto,
   ): any {
-    console.log({ bankName });
+    // generate numerous transactions for the bank connected
+    // store transactions in db & send them to the frontend
     let txs: any[];
 
     switch (bankName) {
@@ -35,5 +36,12 @@ export class AppService {
     return txs.length === 0 || !txFilter || JSON.stringify(txFilter) === '{}'
       ? txs
       : txs.filter((tx) => tx.timestamp > txFilter.startDate);
+  }
+
+  getLatestTransactions(txFilter?: TxFilterDto): any {
+    // query db to find transactions greater than the txFilter.startDate
+    // get the distance between the range of today and the latest transaction
+    // if difference is > 1day, generate some dummy data to add to db
+    // add dummy data to array returned by the db query & respond
   }
 }
